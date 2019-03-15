@@ -4,12 +4,12 @@ CREATE DATABASE earworm_report;
 \c earworm_report
 
 CREATE TABLE users(
-  id SERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY NOT NULL,
   username VARCHAR UNIQUE NOT NULL
 );
 
 CREATE TABLE genres(
-  id SERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY NOT NULL,
   genre_name VARCHAR UNIQUE NOT NULL
 );
 
