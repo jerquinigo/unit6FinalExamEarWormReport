@@ -1,65 +1,56 @@
-import React, {Component} from 'react'
-import AllSongsSearchForm from './AllSongsSearchForm.js'
-import * as songsApi from '../Utils/songsUtils.js'
-class AllSongs extends Component{
-  constructor(){
-    super()
+import React, { Component } from "react";
+import AllSongsSearchForm from "./AllSongsSearchForm.js";
+import * as songsApi from "../Utils/songsUtils.js";
+class AllSongs extends Component {
+  constructor() {
+    super();
     this.state = {
-      allSongs:[],
-      songTitles:[]
-    }
+      allSongs: [],
+      switchDisplay: false
+    };
   }
 
-componentDidMount(){
-this.getAllSongs()
-}
+  componentDidMount() {
+    this.getAllSongs();
+  }
 
+  getAllSongs = () => {
+    return songsApi.fetchAllSongs().then(res => {
+      this.setState({
+        allSongs: res.data.songs
+      });
+    });
+  };
 
-
-getAllSongs = () => {
-  return songsApi.fetchAllSongs()
-  .then(res => {
+  switchDisplayfunction = (value) => {
     this.setState({
-      allSongs: res.data.songs
+      switchDisplay: value
     })
-  })
-}
+  }
 
-displayAllSongs = () => {
-let reversedSongs = this.state.allSongs.reverse()
-  return reversedSongs.map(song => {
-    return(
-    <div>
-      <p>{song.title}</p>
-      <img src={song.img_url} alt="" />
-    </div>
-  )
-  })
-}
+  displayAllSongs = () => {
+    let reversedSongs = this.state.allSongs.reverse();
+    return reversedSongs.map(song => {
+      return (
+        <div>
+          <p>{song.title}</p>
+          <img src={song.img_url} alt="" />
+        </div>
+      );
+    });
+  };
 
-getTitlesForForm = () => {
-  let songTitles = []
-  return this.state.allSongs.map(song => {
-    songTitles.push(song.title)
-  })
-  console.log(songTitles, "the song titles")
-}
-
-
-
-
-
-  render(){
-console.log(this.state.songTitles)
-    // console.log(this.state.allSongs.reverse(), "the props")
-    return(
+  render() {
+    console.log(this.state.songTitles, "in state");
+    return (
       <div className="allSongsPage">
-      AllSongs
-      {this.displayAllSongs()}
-      {this.getTitlesForForm()}
+        AllSongs
+        <AllSongsSearchForm switchDisplay={this.switchDisplayfunction} songs={this.state.allSongs} />
+        {!this.state.switchDisplay ? this.displayAllSongs(): null}
+
       </div>
-    )
+    );
   }
 }
 
-export default AllSongs
+export default AllSongs;

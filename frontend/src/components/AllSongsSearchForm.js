@@ -2,13 +2,49 @@ import React, {Component} from 'react'
 
 
 class AllSongsSearchForm extends Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      searchInput: "",
+      searchResults: null,
+      switchDisplay: this.props.switchDisplay
+
+    }
+  }
 
 
+  handleChange = (event) => {
+    this.setState({
+    [event.target.name]: event.target.value
+    })
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    return this.props.songs.filter(song => {
+      if (song.title.toLowerCase() === this.state.searchInput.toLowerCase()) {
+        console.log(song, "the object with the movie")
+        //passed down boolean logic
+        this.props.switchDisplay(true)
+        this.setState({
+            searchResults: song,
+        });
+      }
+    });
+  };
+
+displaySearchResult = () => {
+  console.log(this.state.searchResults.title , "in the display result funct")
+  return (
+    <img src={this.state.searchResults.img_url} alt="" />
+)
+}
 
   searchInput = () => {
     return(
-    <form>
-      <input type="text" placeholder="Search By Title"/>
+    <form onSubmit={this.handleSubmit}>
+      <input onChange={this.handleChange} name="searchInput" type="text" placeholder="Search By Title"/>
       <button type="SUBMIT">Search</button>
     </form>
 
@@ -17,9 +53,11 @@ class AllSongsSearchForm extends Component{
 
 
   render(){
+    console.log(this.props.switchDisplay, "passed down props")
     return(
       <div className="allSongsSearchFormPage">
       {this.searchInput()}
+      {this.displaySearchResult}
       </div>
     )
   }
