@@ -2,18 +2,21 @@ import React, { Component } from "react";
 import NavBar from './NavBar.js'
 import AllSongsSearchForm from "./AllSongsSearchForm.js";
 import * as songsApi from "../Utils/songsUtils.js";
+import * as favoritesApi from "../Utils/favoritesUtils.js"
 
 class AllSongs extends Component {
   constructor() {
     super();
     this.state = {
       allSongs: [],
-      switchDisplay: false
+      switchDisplay: false,
+      favorites: ""
     };
   }
 
   componentDidMount() {
     this.getAllSongs();
+    this.getAllFavorites()
   }
 
   getAllSongs = () => {
@@ -23,6 +26,15 @@ class AllSongs extends Component {
       });
     });
   };
+
+  getAllFavorites = () => {
+    return favoritesApi.fetchAllFavorites()
+    .then(res => {
+      this.setState({
+        favorites: res.data.favorites
+      })
+    })
+  }
 
   switchDisplayfunction = (value) => {
     this.setState({
@@ -43,7 +55,7 @@ class AllSongs extends Component {
   };
 
   render() {
-    console.log(this.state.songTitles, "in state");
+    console.log(this.state.favorites, "in state");
     return (
       <div className="allSongsPage">
         <NavBar />
