@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import NavBar from './NavBar.js'
 import AllSongsSearchForm from "./AllSongsSearchForm.js";
 import * as songsApi from "../Utils/songsUtils.js";
+
 class AllSongs extends Component {
   constructor() {
     super();
@@ -44,6 +46,7 @@ class AllSongs extends Component {
     console.log(this.state.songTitles, "in state");
     return (
       <div className="allSongsPage">
+        <NavBar />
         AllSongs
         <AllSongsSearchForm switchDisplay={this.switchDisplayfunction} songs={this.state.allSongs} />
         {!this.state.switchDisplay ? this.displayAllSongs(): null}
