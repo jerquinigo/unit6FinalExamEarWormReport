@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+import {Link} from 'react-router-dom';
 import NavBar from "./NavBar.js";
 import AllSongsSearchForm from "./AllSongsSearchForm.js";
 import DisplayRatings from "./DisplayRatings.js";
 import * as songsApi from "../Utils/songsUtils.js";
 import * as favoritesApi from "../Utils/favoritesUtils.js";
-import * as commentsApi from "../Utils/commentsUtils.js"
+import * as commentsApi from "../Utils/commentsUtils.js";
 import "../css/AllSongs.css";
 
 class AllSongs extends Component {
@@ -22,8 +23,7 @@ class AllSongs extends Component {
   componentDidMount() {
     this.getAllSongs();
     this.getAllFavorites();
-    this.getAllComments()
-
+    this.getAllComments();
   }
   //axios call
   getAllSongs = () => {
@@ -41,15 +41,14 @@ class AllSongs extends Component {
       });
     });
   };
-//axios call
+  //axios call
   getAllComments = () => {
-    return commentsApi.fetchAllComments()
-    .then(res => {
+    return commentsApi.fetchAllComments().then(res => {
       this.setState({
         comments: res.data.comments
-      })
-    })
-  }
+      });
+    });
+  };
   //boolean to display
   switchDisplayfunction = value => {
     this.setState({
@@ -57,61 +56,54 @@ class AllSongs extends Component {
     });
   };
 
-displayUsersComments = (id) => {
-  let comments = this.state.comments;
-
-  return comments.map(comment => {
-
-    if(comment.id === id){
-      return(
-        <div>
-          <p>{comment.comments}</p>
-          <p>{comment.username}</p>
-        </div>
-      )
-    }
-  })
-  }
-
-
-  // displayUserNames = (id) => {
-  //
-  // }
-
-
-
-
-  //display title and image for all songs
-  displayAllSongs = () => {
-    let favArr = [];
-    let commentsObj = {}
-    let usernameObj = {}
-    let favorites = this.state.favorites;
+  displayUsersComments = id => {
     let comments = this.state.comments;
 
+    return comments.map((comment, i) => {
+      if (comment.id === id) {
+        return (
+          <div>
+            <p>
+              comment {i + 1}:{comment.comments}
+            </p>
+            <p>username: {comment.username}</p>
+          </div>
+        );
+      }
+    });
+  };
 
-    //loop for getting the username out of comments
-    for(let k=0; k < comments.length; k++){
-      usernameObj[k] =comments[k].username
-    }
+  displayFavorites = id => {
+    let favorites = this.state.favorites;
+    let favArr = [];
     //loop for getting out favorites out of favorites axios call
     for (let i = 0; i < favorites.length; i++) {
       favArr.push(favorites[i].userslikes.length);
+      if (id === favorites[i].id) {
+        return (
+          <div>
+            <p>favorites: {favArr[i]}</p>
+          </div>
+        );
+      }
     }
-    let username = Object.values(usernameObj)
-    let commentsUsers = Object.values(commentsObj)
+  };
+
+  //display title and image for all songs
+  displayAllSongs = () => {
     let reversedSongs = this.state.allSongs.reverse();
     return reversedSongs.map((song, i) => {
-
       return (
         <div>
           <p>{song.title}</p>
           <img className="songCovers" src={song.img_url} alt="" />
-          <p>Favorites: {favArr[i]}</p>
-          <p>{username[i]}</p>
+          {this.displayFavorites(song.id)}
           {this.displayUsersComments(song.id)}
-          {this.state.favoriteButtonClicked ? <button value={song.id}>Favorite</button>: <button value={song.id}>unFavorite</button>}
-
+          {this.state.favoriteButtonClicked ? (
+            <button value={song.id}>Favorite</button>
+          ) : (
+            <button value={song.id}>unFavorite</button>
+          )}
         </div>
       );
     });
