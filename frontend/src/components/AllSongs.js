@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {Link} from 'react-router-dom';
 import NavBar from "./NavBar.js";
 import AllSongsSearchForm from "./AllSongsSearchForm.js";
+import CreateCommentForSong from "./CreateCommentForSong.js"
 import DisplayRatings from "./DisplayRatings.js";
 import * as songsApi from "../Utils/songsUtils.js";
 import * as favoritesApi from "../Utils/favoritesUtils.js";
@@ -16,7 +17,8 @@ class AllSongs extends Component {
       switchDisplay: false,
       favorites: "",
       comments: [],
-      favoriteButtonClicked: false
+      favoriteButtonClicked: false,
+
     };
   }
 
@@ -25,6 +27,7 @@ class AllSongs extends Component {
     this.getAllFavorites();
     this.getAllComments();
   }
+
   //axios call
   getAllSongs = () => {
     return songsApi.fetchAllSongs().then(res => {
@@ -89,6 +92,9 @@ class AllSongs extends Component {
   };
 
 
+
+
+
   favoriteSelectionButton = (id) => {
 
     if(!this.state.favoriteButtonClicked){
@@ -116,7 +122,9 @@ class AllSongs extends Component {
           <img className="songCovers" src={song.img_url} alt="" />
           {this.displayFavorites(song.id)}
           {this.displayUsersComments(song.id)}
-          {this.favoriteSelectionButton()}
+          {this.favoriteSelectionButton(song.id)}
+          <CreateCommentForSong currentUser={this.props.currentUser} songId={song.id}/>
+
 
         </div>
       );
@@ -132,7 +140,7 @@ class AllSongs extends Component {
   };
 
   render() {
-    console.log(this.state.comments, "in state");
+    // console.log(this.props.currentUser, "in state");
     return (
       <div className="allSongsPage">
         <NavBar />

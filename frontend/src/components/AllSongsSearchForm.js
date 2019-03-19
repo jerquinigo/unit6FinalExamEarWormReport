@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import '../css/AllSongsSearchForm.css'
 
 class AllSongsSearchForm extends Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class AllSongsSearchForm extends Component {
     return (
       <div>
       <p>{this.state.searchResults.title}</p>
-      <img src={this.state.searchResults.img_url} alt="" />
+      <img className="searchImage" src={this.state.searchResults.img_url} alt="" />
       {this.props.displayUsersComments(this.state.searchResults.id)}
       </div>
     )
