@@ -3,8 +3,9 @@ import {Link} from 'react-router-dom';
 import AllSongsSearchForm from "./AllSongsSearchForm.js";
 import CreateCommentForSong from "./CreateCommentForSong.js"
 import DisplayUsersComments from "./DisplayUsersComments.js"
+import DisplayFavorites from "./DisplayFavorites.js"
 import * as songsApi from "../Utils/songsUtils.js";
-import * as favoritesApi from "../Utils/favoritesUtils.js";
+// import * as favoritesApi from "../Utils/favoritesUtils.js";
 import * as commentsApi from "../Utils/commentsUtils.js";
 import "../css/AllSongs.css";
 
@@ -14,7 +15,6 @@ class AllSongs extends Component {
     this.state = {
       allSongs: [],
       switchDisplay: false,
-      favorites: "",
       comments: [],
       favoriteButtonClicked: false,
 
@@ -23,7 +23,7 @@ class AllSongs extends Component {
 
   componentDidMount() {
     this.getAllSongs();
-    this.getAllFavorites();
+    // this.getAllFavorites();
     this.getAllComments();
 
   }
@@ -37,13 +37,13 @@ class AllSongs extends Component {
     });
   };
   //axios call
-  getAllFavorites = () => {
-    return favoritesApi.fetchAllFavorites().then(res => {
-      this.setState({
-        favorites: res.data.favorites
-      });
-    });
-  };
+  // getAllFavorites = () => {
+  //   return favoritesApi.fetchAllFavorites().then(res => {
+  //     this.setState({
+  //       favorites: res.data.favorites
+  //     });
+  //   });
+  // };
   //axios call
   getAllComments = () => {
     return commentsApi.fetchAllComments().then(res => {
@@ -76,21 +76,21 @@ class AllSongs extends Component {
     });
   };
 
-  displayFavorites = id => {
-    let favorites = this.state.favorites;
-    let favArr = [];
-    //loop for getting out favorites out of favorites axios call
-    for (let i = 0; i < favorites.length; i++) {
-      favArr.push(favorites[i].userslikes.length);
-      if (id === favorites[i].id) {
-        return (
-          <div>
-            <p>favorites: {favArr[i]}</p>
-          </div>
-        );
-      }
-    }
-  };
+  // displayFavorites = id => {
+  //   let favorites = this.state.favorites;
+  //   let favArr = [];
+  //   //loop for getting out favorites out of favorites axios call
+  //   for (let i = 0; i < favorites.length; i++) {
+  //     favArr.push(favorites[i].userslikes.length);
+  //     if (id === favorites[i].id) {
+  //       return (
+  //         <div>
+  //           <p>favorites: {favArr[i]}</p>
+  //         </div>
+  //       );
+  //     }
+  //   }
+  // };
 
 
 
@@ -121,7 +121,7 @@ class AllSongs extends Component {
         <div key={i}>
           <p>{song.title}</p>
           <img className="songCovers" src={song.img_url} alt="" />
-          {this.displayFavorites(song.id)}
+            <DisplayFavorites songId={song.id} />
           <DisplayUsersComments songId={song.id}/>
           {this.favoriteSelectionButton(song.id)}
           <CreateCommentForSong currentUser={this.props.currentUser} songId={song.id}/>
