@@ -1,3 +1,6 @@
+//Should show similar scene as AllSongs but sorted in a
+// different order. Please fix. 
+
 import React, {Component} from 'react'
 
 

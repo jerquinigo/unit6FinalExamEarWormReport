@@ -1,3 +1,5 @@
+// Missing all functionality
+
 import React, {Component} from 'react'
 
 class ByGenre extends Component{
