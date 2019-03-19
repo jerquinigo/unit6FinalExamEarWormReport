@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Route, Switch} from 'react-router-dom';
+import NavBar from './components/NavBar.js'
 import Home from './components/Home.js';
 import AllSongs from './components/AllSongs.js';
 import ByPopularity from './components/ByPopularity.js';
@@ -34,6 +35,7 @@ getUserAccount = (id) => {
   render() {
     return (
       <div className="App">
+        <NavBar />
         <Switch>
         <Route exact path={"/"} component={Home}/>
         <Route exact path={"/songs"} render={(props) => <AllSongs {...props} currentUser={this.state.currentUser}/>}/>

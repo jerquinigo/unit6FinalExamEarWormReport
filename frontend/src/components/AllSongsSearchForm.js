@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import DisplayUsersComments from './DisplayUsersComments.js'
 import '../css/AllSongsSearchForm.css'
 
 class AllSongsSearchForm extends Component {
@@ -40,6 +41,7 @@ class AllSongsSearchForm extends Component {
       <div>
       <p>{this.state.searchResults.title}</p>
       <img className="searchImage" src={this.state.searchResults.img_url} alt="" />
+      <DisplayUsersComments searchId={this.state.searchResults.id}/ >
       {this.props.displayUsersComments(this.state.searchResults.id)}
       </div>
     )
@@ -60,7 +62,7 @@ class AllSongsSearchForm extends Component {
   };
 
   render() {
-    console.log(this.props.switchDisplay, "passed down props");
+    // console.log(this.props.switchDisplay, "passed down props");
     return (
       <div className="allSongsSearchFormPage">
         {this.searchInput()}

@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import {Link} from 'react-router-dom';
-import NavBar from "./NavBar.js";
 import AllSongsSearchForm from "./AllSongsSearchForm.js";
 import CreateCommentForSong from "./CreateCommentForSong.js"
-import DisplayRatings from "./DisplayRatings.js";
+import DisplayUsersComments from "./DisplayUsersComments.js"
 import * as songsApi from "../Utils/songsUtils.js";
 import * as favoritesApi from "../Utils/favoritesUtils.js";
 import * as commentsApi from "../Utils/commentsUtils.js";
@@ -119,11 +118,11 @@ class AllSongs extends Component {
     let reversedSongs = this.state.allSongs.reverse();
     return reversedSongs.map((song, i) => {
       return (
-        <div>
+        <div key={i}>
           <p>{song.title}</p>
           <img className="songCovers" src={song.img_url} alt="" />
           {this.displayFavorites(song.id)}
-          {this.displayUsersComments(song.id)}
+          <DisplayUsersComments songId={song.id}/>
           {this.favoriteSelectionButton(song.id)}
           <CreateCommentForSong currentUser={this.props.currentUser} songId={song.id}/>
 
@@ -146,7 +145,6 @@ class AllSongs extends Component {
     // console.log(this.props.currentUser, "in state");
     return (
       <div className="allSongsPage">
-        <NavBar />
         AllSongs
         <AllSongsSearchForm
           switchDisplay={this.switchDisplayfunction}
