@@ -26,6 +26,7 @@ class AllSongs extends Component {
     this.getAllSongs();
     this.getAllFavorites();
     this.getAllComments();
+
   }
 
   //axios call
@@ -60,9 +61,10 @@ class AllSongs extends Component {
   };
 //displays users comments and links to users profile
   displayUsersComments = id => {
-    let comments = this.state.comments;
+    let comments = this.state.comments.reverse();
     return comments.map((comment, i) => {
       if (comment.id === id) {
+
         return (
           <div>
             <p>
@@ -140,6 +142,7 @@ class AllSongs extends Component {
   };
 
   render() {
+
     // console.log(this.props.currentUser, "in state");
     return (
       <div className="allSongsPage">
