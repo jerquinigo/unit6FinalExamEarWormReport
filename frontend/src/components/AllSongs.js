@@ -55,12 +55,10 @@ class AllSongs extends Component {
       switchDisplay: value
     });
   };
-
+//displays users comments and links to users profile
   displayUsersComments = id => {
     let comments = this.state.comments;
-
     return comments.map((comment, i) => {
-
       if (comment.id === id) {
         return (
           <div>
@@ -142,6 +140,7 @@ class AllSongs extends Component {
         <AllSongsSearchForm
           switchDisplay={this.switchDisplayfunction}
           songs={this.state.allSongs}
+          displayUsersComments={this.displayUsersComments}
         />
         <div className="test">{this.displayPhotosLogic()}</div>
       </div>

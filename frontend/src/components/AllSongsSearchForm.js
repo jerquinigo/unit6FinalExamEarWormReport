@@ -18,8 +18,9 @@ class AllSongsSearchForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    return this.props.songs.filter(song => {
+    return this.props.songs.find(song => {
       if (song.title.toLowerCase() === this.state.searchInput.toLowerCase()) {
+
         console.log(song, "the object with the movie");
         //passed down boolean logic
         this.props.switchDisplay(true);
@@ -32,11 +33,13 @@ class AllSongsSearchForm extends Component {
 
 
   displaySearchResult = () => {
-    console.log(this.state.searchResults.title, "in the display result funct");
+
+    console.log(this.state.searchResults, "in the display result funct");
     return (
       <div>
       <p>{this.state.searchResults.title}</p>
       <img src={this.state.searchResults.img_url} alt="" />
+      {this.props.displayUsersComments(this.state.searchResults.id)}
       </div>
     )
   };
