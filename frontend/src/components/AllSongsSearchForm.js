@@ -1,3 +1,5 @@
+//Search should work for partial matches as well. 
+
 import React, { Component } from "react";
 import '../css/AllSongsSearchForm.css'
 

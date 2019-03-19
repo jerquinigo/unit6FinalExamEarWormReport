@@ -1,3 +1,6 @@
+// Was unable to favoite a song. Please add this functionality.
+//was unable to add a comment. Page refreshed on enter. 
+
 import React, { Component } from "react";
 import {Link} from 'react-router-dom';
 import NavBar from "./NavBar.js";

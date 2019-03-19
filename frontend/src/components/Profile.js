@@ -1,3 +1,6 @@
+// Missing all required functionality. Please 
+// refer to the instructions for a refresher.
+
 import React, {Component} from 'react'
 
 class Profile extends Component{
