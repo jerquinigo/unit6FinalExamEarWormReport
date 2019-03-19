@@ -60,13 +60,14 @@ class AllSongs extends Component {
     let comments = this.state.comments;
 
     return comments.map((comment, i) => {
+
       if (comment.id === id) {
         return (
           <div>
             <p>
               comment {i + 1}:{comment.comments}
             </p>
-            <p>username: {comment.username}</p>
+            <Link to={`/profile/${comment.users_id}`}><p>username: {comment.username}</p></Link>
           </div>
         );
       }
@@ -89,6 +90,24 @@ class AllSongs extends Component {
     }
   };
 
+
+  favoriteSelectionButton = (id) => {
+
+    if(!this.state.favoriteButtonClicked){
+    return(
+      <div>
+        <button>favorite</button>
+      </div>
+    )
+  }else{
+    return(
+      <div>
+        <button>unFavorite</button>
+      </div>
+    )
+  }
+  }
+
   //display title and image for all songs
   displayAllSongs = () => {
     let reversedSongs = this.state.allSongs.reverse();
@@ -99,11 +118,8 @@ class AllSongs extends Component {
           <img className="songCovers" src={song.img_url} alt="" />
           {this.displayFavorites(song.id)}
           {this.displayUsersComments(song.id)}
-          {this.state.favoriteButtonClicked ? (
-            <button value={song.id}>Favorite</button>
-          ) : (
-            <button value={song.id}>unFavorite</button>
-          )}
+          {this.favoriteSelectionButton()}
+
         </div>
       );
     });
