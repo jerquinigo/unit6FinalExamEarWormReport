@@ -12,7 +12,7 @@ class Profile extends Component {
     this.state = {
       usersFavorites: [],
       singleUser: "",
-      displayPosted: false
+      displayPosted: true
 
     };
   }
@@ -41,14 +41,41 @@ class Profile extends Component {
     })
   }
 
+  togglePostedButton = () => {
+    this.setState({
+      displayPosted: true
+    })
+  }
+
+  toggleFavoritesButton = () => {
+    this.setState({
+      displayPosted: false
+    })
+  }
+
   displayPostedFavoritesButtons = () => {
+    if(this.state.singleUser.username === "jonie")
     return (
       <div>
-        <button>posted</button>
-        <button>favorites</button>
+        <button onClick={() => this.togglePostedButton()}>posted</button>
+        <button onClick={() => this.toggleFavoritesButton()}>favorites</button>
       </div>
     )
   };
+
+  displayFormFromPostedButton = () => {
+    if(this.state.displayPosted && this.state.singleUser.username === "jonie")
+    return(
+      <div>
+        <form>
+          <input type="text" placeholder="enter title"/>
+          <input type="text" placeholder="enter url"/>
+          <input type="text" placeholder="enter genre"/>
+          <button type="SUBMIT">Add Song</button>
+        </form>
+      </div>
+    )
+  }
 
   displayUsersFavorites = () => {
     return this.state.usersFavorites.map(favorite => {
@@ -89,6 +116,7 @@ class Profile extends Component {
     return (
       <div className="profilePage">
         {this.displaySingleUser()}
+        {this.displayFormFromPostedButton()}
         {this.displayPostedFavoritesButtons()}
         {this.displayUsersFavorites()}
         my profile

@@ -8,6 +8,7 @@ class ProfileCreateComment extends Component{
     this.state = {
     comment_body: "",
     song_id: 0
+    
     }
   }
 
@@ -61,7 +62,6 @@ class ProfileCreateComment extends Component{
 
 
   render(){
-    console.log(this.props.songId, "in the profileCreateComment")
     return(
       <div className="profileCreateCommentPage">
         {this.createCommentForm()}
