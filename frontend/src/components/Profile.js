@@ -13,9 +13,21 @@ constructor(){
 
 componentDidMount(){
 
-  let id = 1
+
   this.getAllFavoritesForSingleUser(this.selectProfileId())
 
+}
+
+
+displayUsersFavorites = () => {
+  return this.state.usersFavorites.map(favorite => {
+      return(
+        <div>
+          <p>{favorite.title}</p>
+          <img src={favorite.img_url} alt=""/>
+        </div>
+      )
+  })
 }
 
 
@@ -39,14 +51,12 @@ getAllFavoritesForSingleUser = (id) => {
 }
 
 
-
-
-
   render(){
     console.log(this.props, "in the profile page")
     console.log(this.state.usersFavorites, "in the profile state")
     return(
       <div className="profilePage">
+        {this.displayUsersFavorites()}
       my profile
       </div>
     )
