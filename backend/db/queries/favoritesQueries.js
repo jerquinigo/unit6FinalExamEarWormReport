@@ -15,6 +15,21 @@ getAllFavorites = (req,res,next) => {
   })
 }
 
+getAllFavoritesForSingleUser = (req,res,next) => {
+  let userId= parseInt(req.params.id)
+  db.any("SELECT songs.id, songs.title, songs.img_url, songs.user_id FROM songs JOIN favorites ON songs.id=favorites.song_id WHERE songs.user_id=$1 GROUP BY songs.title, songs.img_url, favorites.song_id, songs.user_id, songs.id", [userId])
+  .then(favorites => {
+    res.status(200).json({
+      status: "success",
+      favorites: favorites,
+      message: "got all favorite songs for single user"
+    })
+  })
+  .catch(err => {
+    return next(err)
+  })
+}
+
 
 getAllFavoritesForSpecificSong = (req,res,next) => {
   let songId = parseInt(req.params.id)
@@ -67,5 +82,5 @@ deleteSingleFavorite = (req,res,next) => {
 }
 
 module.exports = {
-  getAllFavorites, getAllFavoritesForSpecificSong, createNewFavorite, deleteSingleFavorite
+  getAllFavorites, getAllFavoritesForSingleUser, getAllFavoritesForSpecificSong, createNewFavorite, deleteSingleFavorite
 }

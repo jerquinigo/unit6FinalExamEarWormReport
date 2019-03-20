@@ -32,6 +32,7 @@ displayFavorites = id => {
   for (let i = 0; i < favorites.length; i++) {
     favArr.push(favorites[i].userslikes.length);
     if (id === favorites[i].id) {
+
       return (
         <div>
           <p>favorites: {favArr[i]}</p>

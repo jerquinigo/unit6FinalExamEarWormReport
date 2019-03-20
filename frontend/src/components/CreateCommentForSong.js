@@ -6,16 +6,21 @@ class CreateCommentForSong extends Component {
     super();
     this.state = {
     commentBody: "",
-    song_id: 0
+    song_id: 0,
+    data: []
     }
   }
 
+componentDidMount(){
+}
 
   handleChange = (event) => {
     this.setState({
     [event.target.name]: event.target.value
     })
   }
+
+
 
   //axios post
   // postNewComment = () => {
@@ -29,9 +34,9 @@ class CreateCommentForSong extends Component {
   // }
 
 handleSubmit = (event, extraData) => {
-
+  const {commentBody} = this.state
   let data = {
-    comment_body: this.state.commentBody,
+    comment_body: commentBody,
     user_id: this.filterUser(),
     song_id: extraData
   }
@@ -47,6 +52,8 @@ combinedSubmit = (event) => {
   this.handleSubmit(event,this.getSongId())
 
 }
+
+
 
 //get the current songId from the form you are in
 getSongId = (event) => {
@@ -72,9 +79,9 @@ let results = user.slice(0,1)
   createCommentForm = () => {
     return (
       <div className="createCommentForm">
-        <form>
+        <form >
           <input onChange={this.handleChange} name="commentBody" type="text" placeholder="enter a comment" />
-          <button onClick={this.combinedSubmit}  name="song_id"value={this.props.songId} type="SUBMIT">Add Comment</button>
+          <button onClick={this.combinedSubmit} name="song_id"value={this.props.songId} type="SUBMIT">Add Comment</button>
         </form>
       </div>
     );

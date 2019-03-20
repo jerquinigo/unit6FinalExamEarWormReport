@@ -14,6 +14,7 @@ class DisplayUsersComments extends Component{
 
 componentDidMount(){
   this.getAllComments();
+
 }
 
 //axios call
@@ -43,6 +44,13 @@ getAllComments = () => {
       }
     });
   };
+
+
+  reRender = () => {
+    this.setState({
+      state: this.state
+    })
+  }
 
 
 

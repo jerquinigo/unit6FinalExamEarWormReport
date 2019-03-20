@@ -41,7 +41,7 @@ getUserAccount = (id) => {
         <Route exact path={"/songs"} render={(props) => <AllSongs {...props} currentUser={this.state.currentUser}/>}/>
         <Route path={"/songs/bypop"} component={ByPopularity}/>
         <Route path={"/songs/bygenre"} component={ByGenre}/>
-        <Route path={"/profile"} component={Profile}/>
+        <Route path={"/profile"} render={(props) => <Profile {...props} currentUser={this.state.currentUser}/>}/>
         </Switch>
       </div>
     );
