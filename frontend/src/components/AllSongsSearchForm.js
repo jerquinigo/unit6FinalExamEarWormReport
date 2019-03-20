@@ -20,23 +20,27 @@ class AllSongsSearchForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    return this.props.songs.find(song => {
-      if (song.title.toLowerCase() === this.state.searchInput.toLowerCase()) {
+    return this.props.songs.filter(song => {
+      if (song.title.toLowerCase() === this.state.searchInput.toLowerCase() || song.title.toLowerCase().includes(this.state.searchInput.toLowerCase())) {
 
         console.log(song, "the object with the movie");
         //passed down boolean logic
         this.props.switchDisplay(true);
         this.setState({
-          searchResults: song
+          searchResults: song,
+          searchInput: ""
         });
       }
     });
   };
 
-
+//tried to get search to be more dynamic, but doesnt go to the else statement
   displaySearchResult = () => {
-
-    console.log(this.state.searchResults, "in the display result funct");
+// var size = Object.keys(myObj).length;
+let size1 = Object.values(this.state.searchResults).length
+// debugger
+    // console.log(this.state.searchResults, "in the display result funct");
+    if(size1 === 5){
     return (
       <div>
       <p>{this.state.searchResults.title}</p>
@@ -45,6 +49,21 @@ class AllSongsSearchForm extends Component {
       {this.props.displayUsersComments(this.state.searchResults.id)}
       </div>
     )
+  } else {
+    let searchResults = Object.values(this.state.searchResults)
+    return searchResults.map(result => {
+      debugger
+      return(
+          <div>
+          <p>{result.title}</p>
+          <img className="searchImage" src={result.img_url} alt="" />
+          <DisplayUsersComments searchId={result.id}/ >
+          {this.props.displayUsersComments(result.id)}
+          </div>
+      )
+    })
+  }
+
   };
 
   searchInput = () => {
