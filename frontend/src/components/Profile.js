@@ -1,70 +1,103 @@
-import React, {Component} from 'react'
-import * as favoritesApi from '../Utils/favoritesUtils.js'
+import React, { Component } from "react";
+import DisplayUsersComments from './DisplayUsersComments.js'
+import ProfileCreateComment from './ProfileCreateComment.js'
+import * as favoritesApi from "../Utils/favoritesUtils.js";
+import * as usersApi from "../Utils/usersUtils.js"
+import '../css/Profile.css'
 
-class Profile extends Component{
-constructor(){
-  super()
+class Profile extends Component {
+  constructor() {
+    super();
 
-  this.state = {
-    usersFavorites: []
+    this.state = {
+      usersFavorites: [],
+      singleUser: "",
+      displayPosted: false
 
+    };
   }
-}
 
-componentDidMount(){
+  componentDidMount() {
+    this.getAllFavoritesForSingleUser(this.selectProfileId());
+    this.getSingleUser(this.selectProfileId())
+  }
+
+//axios call favorites for single user
+  getAllFavoritesForSingleUser = id => {
+    return favoritesApi.fetchAllFavoritesForSingleUser(id).then(res => {
+      this.setState({
+        usersFavorites: res.data.favorites
+      });
+    });
+  };
 
 
-  this.getAllFavoritesForSingleUser(this.selectProfileId())
+  getSingleUser = (id) => {
+    return usersApi.fetchSingleUser(id)
+    .then(res => {
+    this.setState({
+      singleUser: res.data.user
+      })
+    })
+  }
 
-}
+  displayPostedFavoritesButtons = () => {
+    return (
+      <div>
+        <button>posted</button>
+        <button>favorites</button>
+      </div>
+    )
+  };
 
+  displayUsersFavorites = () => {
+    return this.state.usersFavorites.map(favorite => {
 
-displayUsersFavorites = () => {
-  return this.state.usersFavorites.map(favorite => {
-      return(
+      return (
         <div>
           <p>{favorite.title}</p>
-          <img src={favorite.img_url} alt=""/>
+          <img className="profileImages" src={favorite.img_url} alt="" />
+          <DisplayUsersComments songId={favorite.id} />
+          <ProfileCreateComment userId={this.state.singleUser.id} songId={favorite.id} />
         </div>
-      )
-  })
-}
+      );
+    });
+  };
 
+  selectProfileId = () => {
+    let profile = this.props.location.pathname;
+    if (this.props.location.pathname === "/profile") {
+      return 1;
+    } else {
+      return profile.slice(profile.length - 1);
+    }
+  };
 
-selectProfileId = () => {
-  let profile = this.props.location.pathname
-  if(this.props.location.pathname === "/profile"){
-    return 1
-  }else{
-    return profile.slice(profile.length - 1)
-  }
-}
-
-
-getAllFavoritesForSingleUser = (id) => {
-  return favoritesApi.fetchAllFavoritesForSingleUser(id)
-  .then(res => {
-    this.setState({
-      usersFavorites: res.data.favorites
-    })
-  })
-}
-
-
-  render(){
-    console.log(this.props, "in the profile page")
-    console.log(this.state.usersFavorites, "in the profile state")
+  displaySingleUser = () => {
     return(
-      <div className="profilePage">
-        {this.displayUsersFavorites()}
-      my profile
+      <div>
+        <h2>{this.state.singleUser.username}</h2>
       </div>
     )
   }
+
+
+
+  render() {
+    // console.log(this.props, "in the profile page");
+    // console.log(this.state.singleUser.username, "in the profile state");
+    return (
+      <div className="profilePage">
+        {this.displaySingleUser()}
+        {this.displayPostedFavoritesButtons()}
+        {this.displayUsersFavorites()}
+        my profile
+      </div>
+    );
+  }
 }
 
-export default Profile
-
+export default Profile;
 
 // /profile - AKA "My Profile." The logged-in user's profile. On the top of the screen, in a header tag of your choice, should be the user's username.
 // Below this, there should be two buttons next to each other - "Posted" and "Favorites." One or the other should be highlighted (with a distinctive background color) depending on which one is selected. By default, "Posted" should be selected.
