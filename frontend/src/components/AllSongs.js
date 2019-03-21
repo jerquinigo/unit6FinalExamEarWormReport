@@ -144,6 +144,7 @@ class AllSongs extends Component {
     // console.log(this.props.currentUser, "in state");
     return (
       <div className="allSongsPage">
+        <div className="innerMainSongDiv">
         AllSongs
         <AllSongsSearchForm
           switchDisplay={this.switchDisplayfunction}
@@ -151,6 +152,7 @@ class AllSongs extends Component {
           displayUsersComments={this.displayUsersComments}
         />
         <div className="test">{this.displayPhotosLogic()}</div>
+        </div>
       </div>
     );
   }

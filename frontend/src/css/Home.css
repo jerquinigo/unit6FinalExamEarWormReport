@@ -1,16 +1,17 @@
-.songCovers{
-  width: 500px;
-  height: auto;
-}
-
-.allSongsPage{
+.homePage{
   background-color: #621389;
   width:100%;
 }
 
-.innerMainSongDiv{
+.homePageText{
+  padding-top: 7%;
+}
+
+.innerHomePageDiv{
   padding-top: 15px;
+  height: 100vh;
   margin-right:20%;
   margin-left:20%;
   background-color: #d1d1d1;
+
 }

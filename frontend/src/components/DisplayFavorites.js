@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import * as favoritesApi from "../Utils/favoritesUtils.js";
+import '../css/NavBar.css'
 
 
 
@@ -10,18 +11,36 @@ class DisplayFavorites extends Component{
     favorites: "",
     user_id: 1,
     song_id: 0,
+    testFav: "",
+    favoritesUnique: [],
     favoriteButtonClicked: false
     }
   }
 //post request to update the favorites
 //delete request to remove the favorite
+// deleteFavorite
 
 componentDidMount(){
   this.getAllFavorites();
+  this.getAllFavoritesByUniqueId(this.state.user_id)
 }
+//left off here
+getAllFavoritesByUniqueId = (id) => {
+  return favoritesApi.getAllFavoritesByUniqueId(id)
+  .then(res => {
+
+    this.setState({
+      favoritesUnique: res.data.favorites
+    })
+  })
+}
+
+//need to loop through the favoritesUniques to get what i need out for the delete request loop
+
 
 getAllFavorites = () => {
   return favoritesApi.fetchAllFavorites().then(res => {
+
     this.setState({
       favorites: res.data.favorites
     });
@@ -29,13 +48,14 @@ getAllFavorites = () => {
 };
 
 
-displayFavorites = id => {
+displayFavorites  = (id) => {
   let favorites = this.state.favorites;
   let favArr = [];
   //loop for getting out favorites out of favorites axios call
   for (let i = 0; i < favorites.length; i++) {
     favArr.push(favorites[i].userslikes.length);
     if (id === favorites[i].id) {
+
 
       return (
         <div>
@@ -58,7 +78,7 @@ console.log(data)
 }
 
 deleteFavorite = () => {
-
+  return favoritesApi.deleteFavorite(this.state.user_id)
 }
 
 gettingSongId = (event) => {
@@ -66,15 +86,25 @@ gettingSongId = (event) => {
     song_id: event.target.value,
     favoriteButtonClicked: true
   })
+}
 
+gettingSongIdForUnFavorite = (event) => {
+  this.setState({
+    song_id: event.target.value,
+    favoriteButtonClicked: false
+  })
 }
 
 combinedSubmit = async (event) => {
   event.preventDefault()
     await this.gettingSongId(event)
     this.postFavorite()
+}
 
-
+combinedSubmitForUnfavorite = async (event) => {
+  event.preventDefault()
+  await this.gettingSongIdForUnFavorite(event)
+  this.deleteFavorite()
 }
 
 //doing the logic here !
@@ -89,7 +119,7 @@ favoriteSelectionButton = (id) => {
 }else{
   return(
     <div>
-      <button value={this.props.songId}>unFavorite</button>
+      <button onClick={this.combinedSubmitForUnfavorite} value={this.props.songId}>unFavorite</button>
     </div>
   )
 }
@@ -99,7 +129,7 @@ favoriteSelectionButton = (id) => {
 
 
   render(){
-    console.log(this.state.song_id, "in the dis favs")
+    console.log(this.state.favoritesUnique, "in the dis favs")
     return(
       <div className="displayFavoritesPage">
       {this.displayFavorites(this.props.songId)}

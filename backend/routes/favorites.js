@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
-const { getAllFavorites, getAllFavoritesForSingleUser, getAllFavoritesForSpecificSong, createNewFavorite, deleteSingleFavorite } = require('../db/queries/favoritesQueries.js')
+const { getAllFavorites, getAllFavoritesByUniqueId, getAllFavoritesForSingleUser, getAllFavoritesForSpecificSong, createNewFavorite, deleteSingleFavorite } = require('../db/queries/favoritesQueries.js')
 
 
 router.get('/', getAllFavorites);
+router.get('/unique/:id', getAllFavoritesByUniqueId)
 router.get('/:id', getAllFavoritesForSpecificSong);
 router.get('/user/:id', getAllFavoritesForSingleUser);
 router.post('/', createNewFavorite);

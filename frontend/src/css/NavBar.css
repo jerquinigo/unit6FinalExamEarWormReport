@@ -1,0 +1,20 @@
+.headerNav{
+  padding-left: 3%;
+
+}
+
+ .navBarPage{
+   display: flex;
+justify-content: space-between;
+align-items: center;
+ }
+
+ .linksDiv{
+   width: 50%;
+ }
+
+ .navLink{
+   padding-right: 7%;
+   text-decoration: none;
+   color: black;
+ }
