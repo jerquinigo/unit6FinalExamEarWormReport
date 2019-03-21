@@ -7,10 +7,13 @@ class DisplayFavorites extends Component{
   constructor(){
     super()
     this.state = {
-    favorites: ""
+    favorites: "",
+    user_id: 1,
+    favoriteButtonClicked: false
     }
   }
-
+//post request to update the favorites
+//delete request to remove the favorite
 
 componentDidMount(){
   this.getAllFavorites();
@@ -42,12 +45,44 @@ displayFavorites = id => {
   }
 };
 
+postFavorite = () => {
+ let data = {
+
+ }
+
+  return favoritesApi.createNewFavorite(data)
+  .then(res => {
+    debugger
+  })
+}
+
+
+favoriteSelectionButton = (id) => {
+
+  if(!this.state.favoriteButtonClicked){
+  return(
+    <div>
+      <button value={this.props.songId}>favorite</button>
+    </div>
+  )
+}else{
+  return(
+    <div>
+      <button value={this.props.songId}>unFavorite</button>
+    </div>
+  )
+}
+}
+
+
 
 
   render(){
+    console.log(this.props.songId, "in the dis favs")
     return(
       <div className="displayFavoritesPage">
       {this.displayFavorites(this.props.songId)}
+      {this.favoriteSelectionButton()}
       </div>
     )
   }

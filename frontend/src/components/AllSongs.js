@@ -96,22 +96,22 @@ class AllSongs extends Component {
 
 
 
-  favoriteSelectionButton = (id) => {
-
-    if(!this.state.favoriteButtonClicked){
-    return(
-      <div>
-        <button>favorite</button>
-      </div>
-    )
-  }else{
-    return(
-      <div>
-        <button>unFavorite</button>
-      </div>
-    )
-  }
-  }
+  // favoriteSelectionButton = (id) => {
+  //
+  //   if(!this.state.favoriteButtonClicked){
+  //   return(
+  //     <div>
+  //       <button>favorite</button>
+  //     </div>
+  //   )
+  // }else{
+  //   return(
+  //     <div>
+  //       <button>unFavorite</button>
+  //     </div>
+  //   )
+  // }
+  // }
 
   //display title and image for all songs
   displayAllSongs = () => {
@@ -123,7 +123,6 @@ class AllSongs extends Component {
           <img className="songCovers" src={song.img_url} alt="" />
             <DisplayFavorites songId={song.id} />
           <DisplayUsersComments songId={song.id}/>
-          {this.favoriteSelectionButton(song.id)}
           <CreateCommentForSong currentUser={this.props.currentUser} songId={song.id}/>
 
 

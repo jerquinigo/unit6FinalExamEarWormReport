@@ -84,8 +84,6 @@ displayAllSongs = () => {
           <DisplayFavorites songId={song.id} />
         <DisplayUsersComments songId={song.id}/>
         <CreateCommentForSong currentUser={this.props.currentUser} songId={song.id}/>
-
-
       </div>
     );
   });
@@ -124,6 +122,7 @@ genreSelectForm = () => {
 
 displayGenreSearchResults = () => {
   let genres = Object.values(this.state.genreResults)
+  genres.reverse()
   return genres.map(genre => {
     return(
       <div>
