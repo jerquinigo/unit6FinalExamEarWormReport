@@ -9,6 +9,7 @@ class DisplayFavorites extends Component{
     this.state = {
     favorites: "",
     user_id: 1,
+    song_id: 0,
     favoriteButtonClicked: false
     }
   }
@@ -56,13 +57,19 @@ postFavorite = () => {
   })
 }
 
+gettingSongId = (event) => {
+  this.setState({
+    song_id: event.target.value
+  })
+}
 
+//doing the logic here !
 favoriteSelectionButton = (id) => {
 
   if(!this.state.favoriteButtonClicked){
   return(
     <div>
-      <button value={this.props.songId}>favorite</button>
+      <button onClick={this.gettingSongId} value={this.props.songId}>favorite</button>
     </div>
   )
 }else{
@@ -78,7 +85,7 @@ favoriteSelectionButton = (id) => {
 
 
   render(){
-    console.log(this.props.songId, "in the dis favs")
+    console.log(this.state.song_id, "in the dis favs")
     return(
       <div className="displayFavoritesPage">
       {this.displayFavorites(this.props.songId)}
