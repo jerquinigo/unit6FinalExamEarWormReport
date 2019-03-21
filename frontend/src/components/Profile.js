@@ -3,6 +3,8 @@ import DisplayUsersComments from './DisplayUsersComments.js'
 import ProfileCreateComment from './ProfileCreateComment.js'
 import * as favoritesApi from "../Utils/favoritesUtils.js";
 import * as usersApi from "../Utils/usersUtils.js"
+import * as genresApi from "../Utils/genresUtils.js"
+import * as songsApi from "../Utils/songsUtils.js"
 import '../css/Profile.css'
 
 class Profile extends Component {
@@ -12,7 +14,12 @@ class Profile extends Component {
     this.state = {
       usersFavorites: [],
       singleUser: "",
+      allGenres : {},
+      genreId: 0,
+      title: "",
+      img_url: "",
       displayPosted: true
+
 
     };
   }
@@ -20,6 +27,13 @@ class Profile extends Component {
   componentDidMount() {
     this.getAllFavoritesForSingleUser(this.selectProfileId());
     this.getSingleUser(this.selectProfileId())
+    this.getAllGenres()
+  }
+
+  handleChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
   }
 
 //axios call favorites for single user
@@ -30,6 +44,15 @@ class Profile extends Component {
       });
     });
   };
+// axios call to get all genres
+  getAllGenres = () => {
+    return genresApi.fetchAllGenres()
+    .then(res => {
+      this.setState({
+        allGenres: res.data.genres
+      })
+    })
+  }
 
 
   getSingleUser = (id) => {
@@ -63,14 +86,33 @@ class Profile extends Component {
     )
   };
 
+  gettingGenreId = (event) => {
+    this.setState({
+      genreId: event.target.value
+    })
+  }
+
+  genreInputText = () => {
+    let genres = Object.values(this.state.allGenres)
+    return genres.map(genre => {
+
+      return(
+      <option value={genre.id}>{genre.genre_name}</option>
+      )
+    })
+  }
+
   displayFormFromPostedButton = () => {
+
+
     if(this.state.displayPosted && this.state.singleUser.username === "jonie")
     return(
       <div>
-        <form>
-          <input type="text" placeholder="enter title"/>
-          <input type="text" placeholder="enter url"/>
-          <input type="text" placeholder="enter genre"/>
+        <form onSubmit={this.handleSubmit}>
+          <input onChange={this.handleChange} name="title" type="text" placeholder="enter title"/>
+          <input onChange={this.handleChange} name="img_url" type="text" placeholder="enter url"/>
+          <select value={this.state.genreId}
+           onChange={this.gettingGenreId}>{this.genreInputText()}</select>
           <button type="SUBMIT">Add Song</button>
         </form>
       </div>
@@ -109,8 +151,24 @@ class Profile extends Component {
   }
 
 
+  handleSubmit = (event) => {
+    event.preventDefault()
+    let data = {
+      title: this.state.title,
+      img_url: this.state.img_url,
+      user_id: 1,
+      genre_id: parseInt(this.state.genreId)
+    }
+
+    return songsApi.createNewSong(data)
+
+  }
+
+
 
   render() {
+    console.log(this.state, "the genre")
+    // console.log(this.state.allGenres, "in the state again")
     // console.log(this.props, "in the profile page");
     // console.log(this.state.singleUser.username, "in the profile state");
     return (
