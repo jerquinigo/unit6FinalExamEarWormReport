@@ -45,22 +45,36 @@ displayFavorites = id => {
     }
   }
 };
-
+//stays at zero. need to figure out how to get the number to come up before it gets to the axios call
 postFavorite = () => {
+   if(this.state.favoriteButtonClicked === true && this.state.song_id !== 0){
  let data = {
-
+   user_id: this.state.user_id,
+   song_id: parseInt(this.state.song_id)
  }
-
+console.log(data)
   return favoritesApi.createNewFavorite(data)
-  .then(res => {
-    debugger
-  })
+   }
+}
+
+deleteFavorite = () => {
+
 }
 
 gettingSongId = (event) => {
   this.setState({
-    song_id: event.target.value
+    song_id: event.target.value,
+    favoriteButtonClicked: true
   })
+
+}
+
+combinedSubmit = async (event) => {
+  event.preventDefault()
+    await this.gettingSongId(event)
+    this.postFavorite()
+
+
 }
 
 //doing the logic here !
@@ -69,7 +83,7 @@ favoriteSelectionButton = (id) => {
   if(!this.state.favoriteButtonClicked){
   return(
     <div>
-      <button onClick={this.gettingSongId} value={this.props.songId}>favorite</button>
+      <button onClick={this.combinedSubmit} value={this.props.songId}>favorite</button>
     </div>
   )
 }else{
