@@ -11,8 +11,8 @@ class CreateCommentForSong extends Component {
     }
   }
 
-componentDidMount(){
-}
+// componentDidMount(){
+// }
 
   handleChange = (event) => {
     this.setState({

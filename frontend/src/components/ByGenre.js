@@ -11,14 +11,33 @@ constructor(){
   super()
   this.state = {
     allSongs: [],
-    allGenres: []
+    allGenres: [],
+    genreId: 0,
+    genreResults: ""
   }
 }
 
 componentDidMount(){
   this.getAllSongs()
   this.getAllGenres()
+
 }
+
+gettingGenreId = (event) => {
+this.setState({
+    genreId: event.target.value
+  })
+}
+
+// var resolveAfter2Seconds = function() {
+//   console.log("starting slow promise");
+//   return new Promise(resolve => {
+//     setTimeout(function() {
+//       resolve("slow");
+//       console.log("slow promise is done");
+//     }, 2000);
+//   });
+// };
 
 
 getAllSongs = () => {
@@ -72,16 +91,64 @@ displayAllSongs = () => {
   });
 };
 
+
+displaySearchByGenre = () => {
+  if(this.state.genreId !== 0){
+  return songsApi.fetchAllSongsBySpecificGenre(parseInt(this.state.genreId))
+  .then(res => {
+    this.setState({
+      genreResults: res.data.songs
+      })
+    })
+  }
+}
+
+onSubmit = (event) => {
+  event.preventDefault()
+  this.displaySearchByGenre()
+}
+
+genreSelectForm = () => {
+  return(
+    <div>
+      <form onSubmit={this.onSubmit}>
+        <select onChange={this.gettingGenreId} value={this.state.genreId}>
+          <option>Select Genre</option>
+          {this.genreInputText()}
+        </select>
+        <button type="SUBMIT">Search Genres</button>
+      </form>
+    </div>
+  )
+}
+
+displayGenreSearchResults = () => {
+  let genres = Object.values(this.state.genreResults)
+  return genres.map(genre => {
+    return(
+      <div>
+      <p>{genre.title}</p>
+      <img src={genre.img_url} alt="" />
+        <DisplayFavorites songId={genre.id} />
+      <DisplayUsersComments songId={genre.id}/>
+      <CreateCommentForSong currentUser={this.props.currentUser} songId={genre.id}/>
+      </div>
+    )
+  })
+}
+
 // fetchAllSongsBySpecificGenre the axios call to use later
 //fetchAllGenres another axios call
 //fetchAllSongs another axios call
+// fetchAllSongsBySpecificGenre
   render(){
-    console.log(this.state.allGenres, "in the genre page")
+    console.log(this.state.genreResults, "in the genre page")
     return(
       <div className="byGenrePage">
       by Genre
-      <select>{this.genreInputText()}</select>
-      {this.displayAllSongs()}
+      {this.genreSelectForm()}
+      {!this.state.genreResults ?this.displayAllSongs():this.displayGenreSearchResults()}
+
       </div>
     )
   }
