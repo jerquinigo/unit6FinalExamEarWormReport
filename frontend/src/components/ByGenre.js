@@ -4,6 +4,9 @@ import DisplayFavorites from './DisplayFavorites.js'
 import CreateCommentForSong from './CreateCommentForSong.js'
 import * as genresApi from '../Utils/genresUtils.js'
 import * as songsApi from '../Utils/songsUtils.js'
+import * as usersApi from "../Utils/usersUtils.js"
+
+import '../css/ByGenre.css'
 
 //get the option menu to get the id to shoot off at the api call and then display that search result using ternary just like the all songs
 class ByGenre extends Component{
@@ -12,6 +15,7 @@ constructor(){
   this.state = {
     allSongs: [],
     allGenres: [],
+    allUsers: [],
     genreId: 0,
     genreResults: ""
   }
@@ -20,6 +24,7 @@ constructor(){
 componentDidMount(){
   this.getAllSongs()
   this.getAllGenres()
+  this.getAllUsers()
 
 }
 
@@ -56,6 +61,15 @@ getAllGenres = () => {
     })
   })
 }
+
+getAllUsers = () => {
+  return usersApi.fetchAllUsers()
+  .then(res => {
+    this.setState({
+    allUsers: res.data.users
+    })
+  })
+}
 //work on this
 // getAllSongsBySpecificGenre = (id) => {
 //   return.genreApi.fetchAllSongsBySpecificGenre(id)
@@ -74,16 +88,57 @@ genreInputText = () => {
   })
 }
 
+// displayAllSongs = () => {
+//   let reversedSongs = this.state.allSongs.reverse();
+//   return reversedSongs.map((song, i) => {
+//     return (
+//       <div key={i}>
+//         <p>{song.title}</p>
+//         <img className="songCovers" src={song.img_url} alt="" />
+//           <DisplayFavorites songId={song.id} />
+//         <DisplayUsersComments songId={song.id}/>
+//         <CreateCommentForSong currentUser={this.props.currentUser} songId={song.id}/>
+//       </div>
+//     );
+//   });
+// };
+
+getUsersToMatchSongPosts = (id) => {
+  return this.state.allUsers.map((user, i) => {
+    if(user.id === id){
+
+      return(
+        <div>
+          <p>posted by:{user.username}</p>
+          </div>
+      )
+    }
+  })
+
+}
+
 displayAllSongs = () => {
   let reversedSongs = this.state.allSongs.reverse();
   return reversedSongs.map((song, i) => {
     return (
-      <div key={i}>
-        <p>{song.title}</p>
-        <img className="songCovers" src={song.img_url} alt="" />
-          <DisplayFavorites songId={song.id} />
-        <DisplayUsersComments songId={song.id}/>
-        <CreateCommentForSong currentUser={this.props.currentUser} songId={song.id}/>
+      <div className="songsMainDiv" key={i}>
+        <div className="songImage">
+          <img className="songCovers" src={song.img_url} alt="" />
+          {this.getUsersToMatchSongPosts(song.user_id)}
+        </div>
+        <div className="songContent">
+          <div className="pairedTitleAndFavorites">
+            <p>{song.title}</p>
+            <DisplayFavorites songId={song.id} />
+          </div>
+          <div className="displayCommentsAndPost">
+            <DisplayUsersComments songId={song.id} />
+          </div>
+            <CreateCommentForSong
+              currentUser={this.props.currentUser}
+              songId={song.id}
+            />
+        </div>
       </div>
     );
   });
@@ -123,14 +178,23 @@ genreSelectForm = () => {
 displayGenreSearchResults = () => {
   let genres = Object.values(this.state.genreResults)
   genres.reverse()
-  return genres.map(genre => {
+  return genres.map((genre, i) => {
     return(
-      <div>
+      <div className="songsMainDiv" key={i}>
+        <div className="songImage">
+        <img className="songCovers" src={genre.img_url} alt="" />
+          {this.getUsersToMatchSongPosts(genre.user_id)}
+        </div>
+        <div className="songContent">
+          <div className="pairedTitleAndFavorites">
       <p>{genre.title}</p>
-      <img src={genre.img_url} alt="" />
         <DisplayFavorites songId={genre.id} />
+        </div>
+        <div className="displayCommentsAndPost">
       <DisplayUsersComments songId={genre.id}/>
+      </div>
       <CreateCommentForSong currentUser={this.props.currentUser} songId={genre.id}/>
+      </div>
       </div>
     )
   })
@@ -144,10 +208,11 @@ displayGenreSearchResults = () => {
     console.log(this.state.genreResults, "in the genre page")
     return(
       <div className="byGenrePage">
+        <div className="innerMainGenreDiv">
       by Genre
       {this.genreSelectForm()}
       {!this.state.genreResults ?this.displayAllSongs():this.displayGenreSearchResults()}
-
+    </div>
       </div>
     )
   }

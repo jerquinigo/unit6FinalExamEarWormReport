@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 import AllSongsSearchForm from "./AllSongsSearchForm.js";
-import CreateCommentForSong from "./CreateCommentForSong.js"
-import DisplayUsersComments from "./DisplayUsersComments.js"
-import DisplayFavorites from "./DisplayFavorites.js"
+import CreateCommentForSong from "./CreateCommentForSong.js";
+import DisplayUsersComments from "./DisplayUsersComments.js";
+import DisplayFavorites from "./DisplayFavorites.js";
 import * as songsApi from "../Utils/songsUtils.js";
+import * as usersApi from "../Utils/usersUtils.js"
 // import * as favoritesApi from "../Utils/favoritesUtils.js";
 import * as commentsApi from "../Utils/commentsUtils.js";
 import "../css/AllSongs.css";
@@ -16,8 +17,8 @@ class AllSongs extends Component {
       allSongs: [],
       switchDisplay: false,
       comments: [],
-      favoriteButtonClicked: false,
-
+      allUsers: [],
+      favoriteButtonClicked: false
     };
   }
 
@@ -25,7 +26,7 @@ class AllSongs extends Component {
     this.getAllSongs();
     // this.getAllFavorites();
     this.getAllComments();
-
+    this.getAllUsers()
   }
 
   //axios call
@@ -36,15 +37,16 @@ class AllSongs extends Component {
       });
     });
   };
-  //axios call
-  // getAllFavorites = () => {
-  //   return favoritesApi.fetchAllFavorites().then(res => {
-  //     this.setState({
-  //       favorites: res.data.favorites
-  //     });
-  //   });
-  // };
-  //axios call
+
+  getAllUsers = () => {
+    return usersApi.fetchAllUsers()
+    .then(res => {
+      this.setState({
+      allUsers: res.data.users
+      })
+    })
+  }
+
   getAllComments = () => {
     return commentsApi.fetchAllComments().then(res => {
       this.setState({
@@ -58,18 +60,20 @@ class AllSongs extends Component {
       switchDisplay: value
     });
   };
-//displays users comments and links to users profile
+  //displays users comments and links to users profile
+
   displayUsersComments = id => {
     let comments = this.state.comments.reverse();
     return comments.map((comment, i) => {
       if (comment.id === id) {
-
         return (
           <div>
             <p>
               comment {i + 1}:{comment.comments}
             </p>
-            <Link to={`/profile/${comment.users_id}`}><p>username: {comment.username}</p></Link>
+            <Link to={`/profile/${comment.users_id}`}>
+              <p>username: {comment.username}</p>
+            </Link>
           </div>
         );
       }
@@ -92,10 +96,6 @@ class AllSongs extends Component {
   //   }
   // };
 
-
-
-
-
   // favoriteSelectionButton = (id) => {
   //
   //   if(!this.state.favoriteButtonClicked){
@@ -112,20 +112,47 @@ class AllSongs extends Component {
   //   )
   // }
   // }
+  //to display the users and their respective song
+  getUsersToMatchSongPosts = (id) => {
+    return this.state.allUsers.map((user, i) => {
+      if(user.id === id){
 
+        return(
+          <div>
+            <p>posted by:{user.username}</p>
+            </div>
+        )
+      }
+    })
+
+  }
   //display title and image for all songs
   displayAllSongs = () => {
-    let reversedSongs = this.state.allSongs.reverse();
+    let reversedSongs = this.state.allSongs;
+    reversedSongs.reverse()
     return reversedSongs.map((song, i) => {
+
+      // if(song.user_id === this.state.allUsers[i].id)
+
       return (
-        <div key={i}>
-          <p>{song.title}</p>
-          <img className="songCovers" src={song.img_url} alt="" />
-            <DisplayFavorites songId={song.id} />
-          <DisplayUsersComments songId={song.id}/>
-          <CreateCommentForSong currentUser={this.props.currentUser} songId={song.id}/>
-
-
+        <div className="songsMainDiv" key={i}>
+          <div className="songImage">
+            <img className="songCovers" src={song.img_url} alt="" />
+            {this.getUsersToMatchSongPosts(song.user_id)}
+          </div>
+          <div className="songContent">
+            <div className="pairedTitleAndFavorites">
+              <p>{song.title}</p>
+              <DisplayFavorites songId={song.id} />
+            </div>
+            <div className="displayCommentsAndPost">
+              <DisplayUsersComments songId={song.id} />
+            </div>
+              <CreateCommentForSong
+                currentUser={this.props.currentUser}
+                songId={song.id}
+              />
+          </div>
         </div>
       );
     });
@@ -133,25 +160,29 @@ class AllSongs extends Component {
   //toggle for the search feature to display one image
   displayPhotosLogic = () => {
     if (!this.state.switchDisplay) {
-      return this.displayAllSongs();
+      return(
+        <div className="allSongsMainDiv">
+         {this.displayAllSongs()}
+       </div>
+       )
     } else {
       return null;
     }
   };
 
   render() {
-
+    console.log(this.state.allUsers, "all the users in the allsongs")
     // console.log(this.props.currentUser, "in state");
     return (
       <div className="allSongsPage">
         <div className="innerMainSongDiv">
-        AllSongs
-        <AllSongsSearchForm
-          switchDisplay={this.switchDisplayfunction}
-          songs={this.state.allSongs}
-          displayUsersComments={this.displayUsersComments}
-        />
-        <div className="test">{this.displayPhotosLogic()}</div>
+          AllSongs
+          <AllSongsSearchForm
+            switchDisplay={this.switchDisplayfunction}
+            songs={this.state.allSongs}
+            displayUsersComments={this.displayUsersComments}
+          />
+          <div className="test">{this.displayPhotosLogic()}</div>
         </div>
       </div>
     );

@@ -7,15 +7,15 @@
 
 }
 
-.allSongsPage{
+.byGenrePage{
   background-color: #621389;
   width:100%;
 }
 
-.innerMainSongDiv{
+.innerMainGenreDiv{
   padding-top: 15px;
-  margin-right:20%;
-  margin-left:20%;
+  margin-right:18%;
+  margin-left:18%;
   background-color: #d1d1d1;
 }
 
