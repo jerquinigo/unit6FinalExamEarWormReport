@@ -151,7 +151,7 @@ favoriteSelectionButton = (id) => {
 
 
   render(){
-    console.log(this.uniqueIdFavorites(), "the function")
+    // console.log(this.uniqueIdFavorites(), "the function")
     // console.log(this.state.favoritesUnique, "in the dis favs")
     return(
       <div className="displayFavoritesPage">
