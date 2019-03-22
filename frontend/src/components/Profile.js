@@ -5,6 +5,7 @@ import * as favoritesApi from "../Utils/favoritesUtils.js";
 import * as usersApi from "../Utils/usersUtils.js"
 import * as genresApi from "../Utils/genresUtils.js"
 import * as songsApi from "../Utils/songsUtils.js"
+
 import '../css/Profile.css'
 
 //still need to work on the favorites button features
@@ -16,6 +17,7 @@ class Profile extends Component {
     this.state = {
       usersFavorites: [],
       singleUser: "",
+        allUsers: [],
       allGenres : {},
       genreId: 0,
       title: "",
@@ -30,6 +32,7 @@ class Profile extends Component {
     this.getAllFavoritesForSingleUser(this.selectProfileId());
     this.getSingleUser(this.selectProfileId())
     this.getAllGenres()
+    this.getAllUsers()
   }
 
   handleChange = (event) => {
@@ -62,6 +65,15 @@ class Profile extends Component {
     .then(res => {
     this.setState({
       singleUser: res.data.user
+      })
+    })
+  }
+
+  getAllUsers = () => {
+    return usersApi.fetchAllUsers()
+    .then(res => {
+      this.setState({
+      allUsers: res.data.users
       })
     })
   }
@@ -121,15 +133,39 @@ class Profile extends Component {
     )
   }
 
+  getUsersToMatchSongPosts = (id) => {
+    return this.state.allUsers.map((user, i) => {
+      if(user.id === id){
+
+        return(
+          <div>
+            <p>posted by:{user.username}</p>
+            </div>
+        )
+      }
+    })
+
+  }
+
+//same as displayAllSongs in songs component
   displayUsersFavorites = () => {
-    return this.state.usersFavorites.map(favorite => {
+    return this.state.usersFavorites.map((favorite, i) => {
 
       return (
-        <div>
+        <div className="songsMainDiv" key={i}>
+          <div className="songImage">
+          <img className="songCovers" src={favorite.img_url} alt="" />
+          {this.getUsersToMatchSongPosts(favorite.user_id)}
+          </div>
+            <div className="songContent">
+                <div className="pairedTitleAndFavorites">
           <p>{favorite.title}</p>
-          <img className="profileImages" src={favorite.img_url} alt="" />
+            </div>
+            <div className="displayCommentsAndPost">
           <DisplayUsersComments songId={favorite.id} />
+          </div>
           <ProfileCreateComment userId={this.state.singleUser.id} songId={favorite.id} />
+          </div>
         </div>
       );
     });
@@ -175,11 +211,13 @@ class Profile extends Component {
     // console.log(this.state.singleUser.username, "in the profile state");
     return (
       <div className="profilePage">
+        <div className="innerMainProfileDiv">
         {this.displaySingleUser()}
         {this.displayFormFromPostedButton()}
         {this.displayPostedFavoritesButtons()}
         {this.displayUsersFavorites()}
-        my profile
+
+      </div>
       </div>
     );
   }
