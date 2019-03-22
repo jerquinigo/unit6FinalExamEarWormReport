@@ -13,3 +13,8 @@ export const createNewSong = (song) => {
 export const fetchAllSongsBySpecificGenre = (id) => {
   return axios.get(`/api/songs/genre/${id}`)
 }
+
+
+export const fetchallSongsPostedBySpecificUser = (id) => {
+  return axios.get(`/api/songs/user/${id}`)
+}

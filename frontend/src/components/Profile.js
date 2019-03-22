@@ -19,6 +19,9 @@ class Profile extends Component {
       singleUser: "",
         allUsers: [],
       allGenres : {},
+      allSongsForOneUser: [],
+      userNotJonieProfile: false,
+      hidePostSongForm: false,
       genreId: 0,
       title: "",
       img_url: "",
@@ -33,6 +36,7 @@ class Profile extends Component {
     this.getSingleUser(this.selectProfileId())
     this.getAllGenres()
     this.getAllUsers()
+    this.allSongsPostedBySpecificUser(this.selectProfileId())
   }
 
   handleChange = (event) => {
@@ -78,26 +82,64 @@ class Profile extends Component {
     })
   }
 
+//all songs posted by one user
+  allSongsPostedBySpecificUser = (id) => {
+    return songsApi.fetchallSongsPostedBySpecificUser(id)
+    .then(res => {
+      this.setState({
+        allSongsForOneUser: res.data.songs
+      })
+    })
+  }
+
   togglePostedButton = () => {
     this.setState({
-      displayPosted: true
+      displayPosted: true,
+        hidePostSongForm: false
     })
   }
 
   toggleFavoritesButton = () => {
     this.setState({
-      displayPosted: false
+      displayPosted: false,
+      hidePostSongForm: false
     })
   }
 
+  // combinedToggleFavoritesButton = () => {
+  //   this.toggleFavoritesButton()
+  // }
+
+togglePostedButtonForOtherUsers = () => {
+  this.setState({
+    displayPosted: false,
+    hidePostSongForm: true
+  })
+}
+
+toggleFavoriteButtonForOtherUsers = () => {
+  this.setState({
+    displayPosted: false,
+    hidePostSongForm: true
+  })
+}
+
   displayPostedFavoritesButtons = () => {
-    if(this.state.singleUser.username === "jonie")
+    if(this.state.singleUser.username === "jonie"){
     return (
       <div>
         <button onClick={() => this.togglePostedButton()}>posted</button>
-        <button onClick={() => this.toggleFavoritesButton()}>favorites</button>
+        <button onClick={this.toggleFavoritesButton}>favorites</button>
       </div>
     )
+  } if(this.state.singleUser.username !== "jonie"){
+      return(
+        <div>
+          <button onClick={this.togglePostedButtonForOtherUsers}>posted</button>
+          <button onClick={this.toggleFavoritesButton}>favorites</button>
+        </div>
+      )
+    }
   };
 
   gettingGenreId = (event) => {
@@ -146,6 +188,29 @@ class Profile extends Component {
     })
 
   }
+
+displayUsersFavoritesByDefault = () => {
+  let usersFavorite = this.state.allSongsForOneUser
+  return usersFavorite.map((favorite, i) => {
+    return(
+      <div className="songsMainDiv" key={i}>
+        <div className="songImage">
+        <img className="songCovers" src={favorite.img_url} alt="" />
+        {this.getUsersToMatchSongPosts(favorite.user_id)}
+        </div>
+          <div className="songContent">
+              <div className="pairedTitleAndFavorites">
+        <p>{favorite.title}</p>
+          </div>
+          <div className="displayCommentsAndPost">
+        <DisplayUsersComments songId={favorite.id} />
+        </div>
+        <ProfileCreateComment userId={this.state.singleUser.id} songId={favorite.id} />
+        </div>
+      </div>
+    )
+  })
+}
 
 //same as displayAllSongs in songs component
   displayUsersFavorites = () => {
@@ -205,7 +270,7 @@ class Profile extends Component {
 
 
   render() {
-    console.log(this.state, "the genre")
+    console.log(this.state.allSongsForOneUser, "the profile")
     // console.log(this.state.allGenres, "in the state again")
     // console.log(this.props, "in the profile page");
     // console.log(this.state.singleUser.username, "in the profile state");
@@ -215,7 +280,8 @@ class Profile extends Component {
         {this.displaySingleUser()}
         {this.displayFormFromPostedButton()}
         {this.displayPostedFavoritesButtons()}
-        {this.displayUsersFavorites()}
+        {!this.state.displayPosted ? this.displayUsersFavorites() : this.displayUsersFavoritesByDefault()}
+
 
       </div>
       </div>

@@ -19,7 +19,8 @@ class ByPopularity extends Component {
   componentDidMount() {
     this.getAllSongs();
     this.getAllFavorites();
-    this.getAllUsers()
+    this.getAllUsers();
+
   }
   //axios call for all songs
   getAllSongs = () => {
@@ -47,32 +48,42 @@ class ByPopularity extends Component {
     })
   }
 
+  // getAllFavoritesForSingleUser = () => {
+  //   return favoritesApi.fetchAllFavoritesForSingleUser(1)
+  //   .then(res => {
+  //     debugger
+  //   })
+  // }
+
 //need to figure this out
-  displayFavorites = id => {
-    let favorites = this.state.favorites;
-    let favArr = []
-    for (let i = 0; i < favorites.length; i++) {
-      favArr.push({[i + 1]: favorites[i].userslikes.length});
-    }
-    favArr.reverse()
-
-    for(let fav in favArr){
-      if(id === fav){
-        console.log("test")
-      }
-    }
-
-    // for (let j = 0; j < favorites.length; j++) {
-    //   // if (id === favArr[j]) {
-    //     console.log(favArr[j]);
-    //     return (
-    //       <div>
-    //         <p>favorites: {favArr[j]}</p>
-    //       </div>
-    //     );
-    //   // }
-    // }
-  };
+  // displayFavorites = id => {
+  //   let favorites = this.state.favorites;
+  //   let favArr = []
+  //   for (let i = 0; i < favorites.length; i++) {
+  //     favArr.push({[i + 1]: favorites[i].userslikes.length});
+  //   }
+  //   favArr.reverse()
+  //
+  //   for(let fav in favArr){
+  //     if(id === fav){
+  //       console.log("test")
+  //     }
+  //   }
+  //
+  //
+  //
+  //
+  //   // for (let j = 0; j < favorites.length; j++) {
+  //   //   // if (id === favArr[j]) {
+  //   //     console.log(favArr[j]);
+  //   //     return (
+  //   //       <div>
+  //   //         <p>favorites: {favArr[j]}</p>
+  //   //       </div>
+  //   //     );
+  //   //   // }
+  //   // }
+  // };
 
   // displayAllSongs = () => {
   //   let reversedSongs = this.state.allSongs.reverse();
@@ -87,6 +98,10 @@ class ByPopularity extends Component {
   //     );
   //   });
   // };
+
+  // displayFavoritesForPopularity = (id) => {
+  //   if(id)
+  // }
 
   getUsersToMatchSongPosts = (id) => {
     return this.state.allUsers.map((user, i) => {
