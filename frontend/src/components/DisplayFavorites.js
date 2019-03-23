@@ -78,13 +78,14 @@ displayFavorites  = (id) => {
           <p>favorites: {favArr[i]}</p>
         </div>
       );
-    }if(this.state.favoriteButtonClicked === true){
-      return(
-        <div>
-            <p>favorites: {favArr[i] + [i]}</p>
-        </div>
-        )
     }
+    // }if(this.state.favoriteButtonClicked === true){
+    //   return(
+    //     <div>
+    //         <p>favorites: {favArr[i] + [i]}</p>
+    //     </div>
+    //     )
+    // }
   }
 };
 //stays at zero. need to figure out how to get the number to come up before it gets to the axios call

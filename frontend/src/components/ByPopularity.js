@@ -3,6 +3,7 @@ import DisplayUsersComments from "./DisplayUsersComments.js";
 import * as songsApi from "../Utils/songsUtils.js";
 import * as favoritesApi from "../Utils/favoritesUtils.js";
 import DisplayFavorites from "./DisplayFavorites.js"
+import DisplayFavoritesForPopularity from "./DisplayFavoritesForPopularity.js"
 import CreateCommentForSong from "./CreateCommentForSong.js"
 import * as usersApi from "../Utils/usersUtils.js"
 import '../css/ByPopularity.css'
@@ -133,7 +134,7 @@ class ByPopularity extends Component {
           <div className="songContent">
             <div className="pairedTitleAndFavorites">
               <p>{song.title}</p>
-              <DisplayFavorites songId={song.id} />
+              <DisplayFavoritesForPopularity songId={song.id} />
             </div>
             <div className="displayCommentsAndPost">
               <DisplayUsersComments songId={song.id} />

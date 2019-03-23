@@ -168,7 +168,10 @@ toggleFavoriteButtonForOtherUsers = () => {
           <input className="inputBox" onChange={this.handleChange} name="title" type="text" placeholder="enter title"/>
           <input className="inputBox" onChange={this.handleChange} name="img_url" type="text" placeholder="enter url"/>
           <select className="genreSelect" value={this.state.genreId}
-           onChange={this.gettingGenreId}>{this.genreInputText()}</select>
+           onChange={this.gettingGenreId}>
+           <option>Select Genre</option>
+           {this.genreInputText()}
+         </select>
          <button className="searchButton" type="SUBMIT">Add Song</button>
         </form>
       </div>

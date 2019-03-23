@@ -21,3 +21,7 @@ export const deleteFavorite = (id) => {
 export const getAllFavoritesByUniqueId = (id) => {
   return axios.get(`/api/favorites/unique/${id}`)
 }
+
+export const getAllFavoritesInDesc = () => {
+  return axios.get('/api/favorites/desc')
+}
