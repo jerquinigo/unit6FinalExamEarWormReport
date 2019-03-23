@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import DisplayUsersComments from './DisplayUsersComments.js'
+import CreateCommentForSong from './CreateCommentForSong.js'
+import DisplayFavorites from './DisplayFavorites.js'
 import '../css/AllSongsSearchForm.css'
 
 class AllSongsSearchForm extends Component {
@@ -42,11 +44,22 @@ let size1 = Object.values(this.state.searchResults).length
     // console.log(this.state.searchResults, "in the display result funct");
     if(size1 === 5){
     return (
-      <div>
+      <div className="songsMainDiv">
+        <div className="songImage">
+        <img className="songCovers" src={this.state.searchResults.img_url} alt="" />
+        </div>
+      <div className="songContent">
+        <div className="pairedTitleAndFavorites">
       <p>{this.state.searchResults.title}</p>
-      <img className="searchImage" src={this.state.searchResults.img_url} alt="" />
+      <DisplayFavorites songId={this.state.searchResults.id} />
+        </div>
+        <div className="displayCommentsAndPost">
       <DisplayUsersComments searchId={this.state.searchResults.id}/ >
       {this.props.displayUsersComments(this.state.searchResults.id)}
+    </div>
+    <CreateCommentForSong currentUser={this.props.currentUser}
+      songId={this.state.searchResults.id}/>
+        </div>
       </div>
     )
   } else {
@@ -68,14 +81,14 @@ let size1 = Object.values(this.state.searchResults).length
 
   searchInput = () => {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
+      <form className="searchForm" onSubmit={this.handleSubmit}>
+        <input className="inputBox"
           onChange={this.handleChange}
           name="searchInput"
           type="text"
           placeholder="Search By Title"
         />
-        <button type="SUBMIT">Search</button>
+      <button className="searchButton" type="SUBMIT">Search</button>
       </form>
     );
   };
@@ -84,8 +97,12 @@ let size1 = Object.values(this.state.searchResults).length
     // console.log(this.props.switchDisplay, "passed down props");
     return (
       <div className="allSongsSearchFormPage">
+        <div className={!this.state.searchResults ? "innerSongSearchForm":"innerSongSearchFormDifferent"}>
         {this.searchInput()}
+        <div className="innerMostDiv">
         {this.displaySearchResult()}
+      </div>
+      </div>
       </div>
     );
   }

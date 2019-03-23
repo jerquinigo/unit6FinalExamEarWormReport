@@ -1,0 +1,14 @@
+.addCommentButton{
+  border: none;
+  background-color: pink;
+ color: white;
+ /* padding: 15px 32px; */
+ margin-left: 2%;
+ height:25px;
+ border-radius: 10px;
+ width: 150px;
+ text-align: center;
+ /* text-decoration: none; */
+ display: inline-block;
+ font-size: 16px;
+}

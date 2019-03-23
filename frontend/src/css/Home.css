@@ -5,6 +5,7 @@
 
 .homePageText{
   padding-top: 7%;
+  font-family: 'Germania One', cursive;
 }
 
 .innerHomePageDiv{
@@ -15,3 +16,6 @@
   background-color: #d1d1d1;
 
 }
+/*
+font-family: 'Germania One', cursive;
+font-family: 'Lato', sans-serif; */

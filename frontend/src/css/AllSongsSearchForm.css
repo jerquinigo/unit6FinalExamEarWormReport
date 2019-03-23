@@ -2,3 +2,104 @@
   width: 500px;
   height: auto;
 }
+
+
+.inputBox{
+  width: 250px;
+height: 20px;
+}
+
+.searchForm{
+  padding-bottom: 30px;
+}
+
+.searchButton{
+  border: none;
+  background-color: pink;
+ color: white;
+ /* padding: 15px 32px; */
+ margin-left: 2%;
+ height:25px;
+ border-radius: 10px;
+ width: 150px;
+ text-align: center;
+ /* text-decoration: none; */
+ display: inline-block;
+ font-size: 16px;
+}
+
+.songCovers{
+  width: 200px;
+  height: 220px;
+   background-size: cover;
+   border-radius: 10px;
+   /* padding-right: 10%; */
+
+}
+
+.allSongsPage{
+  background-color: #621389;
+  width:100%;
+
+}
+
+.innerMainSongDiv{
+  padding-top: 15px;
+  margin-right:20%;
+  margin-left:20%;
+  background-color: #d1d1d1;
+  /* height:100vh; */
+}
+.innerSongSearchFormDifferent{
+  padding-top: 15px;
+  margin-right:20%;
+  margin-left:20%;
+  background-color: #d1d1d1;
+  height:100vh;
+}
+
+.inputBox{
+  width: 250px;
+height: 20px;
+}
+
+.songsMainDiv{
+  height:300px;
+
+  display: flex;
+align-items: center;
+/* height: 500px; */
+/* background-color: pink; */
+}
+
+
+.songImage{
+  height:96%;
+   padding-right: 3%;
+   padding-left: 2%;
+
+}
+
+.pairedTitleAndFavorites{
+  display: flex;
+justify-content: space-around;
+background-color: #621389;
+border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.displayCommentsAndPost{
+  display: block;
+width: 600px;
+height: 200px;
+border-bottom-right-radius: 10px;
+border-bottom-left-radius: 10px;
+background-color:#fff;
+   overflow-y: scroll;
+}
+
+.innerMostDiv{
+  width: 100%;
+display: flex;
+justify-content: center;
+}

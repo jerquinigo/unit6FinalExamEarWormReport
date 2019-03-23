@@ -1,5 +1,7 @@
 .headerNav{
   padding-left: 3%;
+  font-family: 'Germania One', cursive;
+
 
 }
 
@@ -11,6 +13,8 @@ align-items: center;
 
  .linksDiv{
    width: 50%;
+   font-family: 'Lato', sans-serif;
+   font-size: 23px;
  }
 
  .navLink{

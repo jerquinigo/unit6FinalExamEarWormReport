@@ -181,6 +181,7 @@ class AllSongs extends Component {
             switchDisplay={this.switchDisplayfunction}
             songs={this.state.allSongs}
             displayUsersComments={this.displayUsersComments}
+            currentUser={this.props.currentUser}
           />
           <div className="test">{this.displayPhotosLogic()}</div>
         </div>

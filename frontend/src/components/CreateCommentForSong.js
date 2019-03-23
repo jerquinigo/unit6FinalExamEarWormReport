@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import * as commentsApi from '../Utils/commentsUtils.js'
+import '../css/CreateCommentForSong.css'
 
 class CreateCommentForSong extends Component {
   constructor() {
@@ -80,8 +81,8 @@ let results = user.slice(0,1)
     return (
       <div className="createCommentForm">
         <form >
-          <input onChange={this.handleChange} name="commentBody" type="text" placeholder="enter a comment" />
-          <button onClick={this.combinedSubmit} name="song_id"value={this.props.songId} type="SUBMIT">Add Comment</button>
+          <input className="inputBox" onChange={this.handleChange} name="commentBody" type="text" placeholder="enter a comment" />
+          <button className="addCommentButton" onClick={this.combinedSubmit} name="song_id"value={this.props.songId} type="SUBMIT">Add Comment</button>
         </form>
       </div>
     );

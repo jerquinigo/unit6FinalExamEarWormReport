@@ -28,6 +28,11 @@ align-items: center;
 /* background-color: pink; */
 }
 
+.inputBox{
+  width: 250px;
+height: 20px;
+}
+
 
 .songImage{
   height:96%;
