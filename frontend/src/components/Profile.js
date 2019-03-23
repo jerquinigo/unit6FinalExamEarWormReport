@@ -165,11 +165,11 @@ toggleFavoriteButtonForOtherUsers = () => {
     return(
       <div>
         <form onSubmit={this.handleSubmit}>
-          <input onChange={this.handleChange} name="title" type="text" placeholder="enter title"/>
-          <input onChange={this.handleChange} name="img_url" type="text" placeholder="enter url"/>
-          <select value={this.state.genreId}
+          <input className="inputBox" onChange={this.handleChange} name="title" type="text" placeholder="enter title"/>
+          <input className="inputBox" onChange={this.handleChange} name="img_url" type="text" placeholder="enter url"/>
+          <select className="genreSelect" value={this.state.genreId}
            onChange={this.gettingGenreId}>{this.genreInputText()}</select>
-          <button type="SUBMIT">Add Song</button>
+         <button className="searchButton" type="SUBMIT">Add Song</button>
         </form>
       </div>
     )
@@ -248,7 +248,7 @@ displayUsersFavoritesByDefault = () => {
   displaySingleUser = () => {
     return(
       <div>
-        <h2>{this.state.singleUser.username}</h2>
+        <h2 className="displayUserName">{this.state.singleUser.username}</h2>
       </div>
     )
   }

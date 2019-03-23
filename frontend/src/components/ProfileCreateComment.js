@@ -53,8 +53,8 @@ class ProfileCreateComment extends Component{
     return(
       <div>
       <form>
-      <input onChange={this.handleChange} name="comment_body" type="text" placeholder="enter your comment"/>
-      <button onClick={this.combinedSubmit} value={this.props.songId} type="SUBMIT">Add Comment</button>
+      <input className="inputBox" onChange={this.handleChange} name="comment_body" type="text" placeholder="enter your comment"/>
+      <button className="searchButton" onClick={this.combinedSubmit} value={this.props.songId} type="SUBMIT">Add Comment</button>
       </form>
       </div>
     )
