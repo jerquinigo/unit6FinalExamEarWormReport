@@ -1,3 +1,12 @@
+//I know I mentioned favorites earlier but I just
+// noticed that if I toggle the button a ton of times
+// and then refresh the number, the count goes up by a lot.
+
+//Genre filter acting odd. There is movement and change
+// on change, but also change on the submit. I only want
+// movement on the submit. The thing moving is the
+// comments...
+
 import React, {Component} from 'react'
 import DisplayUsersComments from './DisplayUsersComments.js'
 import DisplayFavorites from './DisplayFavorites.js'
