@@ -1,3 +1,25 @@
+// Search is working a bit funny. Try searching one.
+// One and long gone should show up but only long gone shows up.
+// Then if you type more in the seach bar the comments change and shuffle.
+//I can't get all songs again until I click on all songs.
+
+
+// Lots of dead code in here, please remove it.
+
+
+//favoriting button toggles nicely but doesn't seem
+// to actually work or contribute to the favorite count.
+// I lose my favorite on the refresh.
+
+//Commenting is spoty. Seems to show up only after refresh.
+//Try adding object-fit:cover to your photos so they look
+// less pinched.
+
+// Lots of stuff being displayed in console. Clean it.
+
+//Songs should appear with most recent posted at the top.
+//Doesn't work on refresh, only on clicking to this link. 
+
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import AllSongsSearchForm from "./AllSongsSearchForm.js";

@@ -1,3 +1,15 @@
+//Toggle of if I'm on posted or favorited needs to be
+// clearer with css.
+
+// Song does not appear as posted until refresh.
+// Also filling out the form keeps changing the comments
+// in the songs. Odd behavior.
+
+// Bug report. If I'm on my profile page and click on another
+// user the url changes but the songs do not.
+
+// the post by: user should also be links to the profile. 
+
 import React, { Component } from "react";
 import DisplayUsersComments from './DisplayUsersComments.js'
 import ProfileCreateComment from './ProfileCreateComment.js'
